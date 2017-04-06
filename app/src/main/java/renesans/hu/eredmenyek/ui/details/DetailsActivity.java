@@ -1,8 +1,7 @@
-package renesans.hu.eredmenyek.ui.tournaments;
+package renesans.hu.eredmenyek.ui.details;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -10,14 +9,14 @@ import renesans.hu.eredmenyek.R;
 
 import static renesans.hu.eredmenyek.EredmenyekApplication.injector;
 
-public class TournamentsActivity extends AppCompatActivity implements TournamentsScreen {
+public class DetailsActivity extends AppCompatActivity implements DetailsScreen {
     @Inject
-    TournamentsPresenter tournamentsPresenter;
+    DetailsPresenter detailsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tournaments);
+        setContentView(R.layout.activity_details);
 
         injector.inject(this);
     }
@@ -25,17 +24,12 @@ public class TournamentsActivity extends AppCompatActivity implements Tournament
     @Override
     protected void onStart() {
         super.onStart();
-        tournamentsPresenter.attachScreen(this);
+        detailsPresenter.attachScreen(this);
     }
 
     @Override
     protected void onStop() {
-        tournamentsPresenter.detachScreen();
+        detailsPresenter.detachScreen();
         super.onStop();
-    }
-
-    @Override
-    public void showMessage(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }
