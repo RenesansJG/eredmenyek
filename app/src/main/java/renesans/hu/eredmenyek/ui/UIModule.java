@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import renesans.hu.eredmenyek.ui.teams.TeamsPresenter;
 import renesans.hu.eredmenyek.ui.tournaments.TournamentsPresenter;
 
 @Module
@@ -25,5 +26,11 @@ public class UIModule {
     @Singleton
     public TournamentsPresenter provideTournamentsPresenter() {
         return new TournamentsPresenter();
+    }
+
+    @Provides
+    @Singleton
+    public TeamsPresenter provideTeamsPresenter() {
+        return new TeamsPresenter();
     }
 }
