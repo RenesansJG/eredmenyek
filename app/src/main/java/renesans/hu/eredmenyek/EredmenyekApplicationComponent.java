@@ -4,10 +4,10 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import renesans.hu.eredmenyek.ui.UIModule;
-import renesans.hu.eredmenyek.ui.main.MainActivity;
+import renesans.hu.eredmenyek.ui.tournaments.TournamentsActivity;
 
 @Singleton
 @Component(modules = {UIModule.class})
 public interface EredmenyekApplicationComponent {
-    void inject(MainActivity mainActivity);
+    void inject(TournamentsActivity tournamentsActivity);
 }
