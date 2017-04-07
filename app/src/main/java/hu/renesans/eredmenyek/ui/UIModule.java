@@ -2,6 +2,8 @@ package hu.renesans.eredmenyek.ui;
 
 import android.content.Context;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -46,5 +48,11 @@ public class UIModule {
     @Singleton
     public DetailsPresenter provideDetailsPresenter() {
         return new DetailsPresenter();
+    }
+
+    @Provides
+    @Singleton
+    public EventBus provideEventBus() {
+        return EventBus.getDefault();
     }
 }
