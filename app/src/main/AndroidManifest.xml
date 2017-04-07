@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="renesans.hu.eredmenyek">
+          package="hu.renesans.eredmenyek">
 
     <application
-        android:name=".EredmenyekApplication"
+        android:name="hu.renesans.eredmenyek.EredmenyekApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ui.tournaments.TournamentsActivity">
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="eredmenyek.db"/>
+        <meta-data
+            android:name="VERSION"
+            android:value="1"/>
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true"/>
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="hu.renesans.eredmenyek.model"/>
+
+        <activity android:name="hu.renesans.eredmenyek.ui.tournaments.TournamentsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.teams.TeamsActivity">
+
+        <activity android:name="hu.renesans.eredmenyek.ui.teams.TeamsActivity">
         </activity>
-        <activity android:name=".ui.matches.MatchesActivity">
+
+        <activity android:name="hu.renesans.eredmenyek.ui.matches.MatchesActivity">
         </activity>
-        <activity android:name=".ui.details.DetailsActivity">
+
+        <activity android:name="hu.renesans.eredmenyek.ui.details.DetailsActivity">
         </activity>
+
     </application>
 
 </manifest>
