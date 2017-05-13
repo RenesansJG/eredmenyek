@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Eredmények</string>
+
+    <!-- Common -->
+    <string name="open">Kinyit</string>
+    <string name="close">Becsuk</string>
+    <string name="menu_tournaments">Bajnokságok</string>
+    <string name="menu_teams">Csapatok</string>
+    <string name="show_favorites">Kedvencek mutatása</string>
+    <string name="show_all">Minden mutatása</string>
+
+    <!-- Tournaments -->
+    <string name="title_tournaments">Bajnokságok</string>
+
+    <!-- Teams -->
+    <string name="title_teams">Csapatok</string>
+
+    <!-- Details -->
+    <string name="first_half">1. félidő</string>
+    <string name="second_half">2. félidő</string>
+    <string name="first_extra">1. hosszabbítás</string>
+    <string name="second_extra">2. hosszabbítás</string>
+    <string name="penalties">Büntetők</string>
+    <string name="penalties_short">B.</string>
+
+    <!-- Formats -->
+    <string name="format_score">%1$d – %2$d</string>
+    <string name="format_period_minute">%1$s – %2$s’</string>
+    <string name="format_minute">%1$s’</string>
+    <string name="format_event">%1$s %2$s</string>
 </resources>

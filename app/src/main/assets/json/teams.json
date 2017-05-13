@@ -1,0 +1,135 @@
+[
+  {
+    "id": 1,
+    "name": "Anglia",
+    "imageUrl": "images/categories/england.png",
+    "teams": [
+      {
+        "id": 1,
+        "name": "Arsenal",
+        "imageUrl": "images/teams/arsenal.png"
+      },
+      {
+        "id": 2,
+        "name": "Chelsea",
+        "imageUrl": "images/teams/chelsea.png"
+      },
+      {
+        "id": 3,
+        "name": "Liverpool",
+        "imageUrl": "images/teams/liverpool.png"
+      },
+      {
+        "id": 4,
+        "name": "Manchester City",
+        "imageUrl": "images/teams/manchester_city.png"
+      },
+      {
+        "id": 5,
+        "name": "Manchester United",
+        "imageUrl": "images/teams/manchester_united.png"
+      },
+      {
+        "id": 6,
+        "name": "Tottenham Hotspur",
+        "imageUrl": "images/teams/tottenham_hotspur.png"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Németország",
+    "imageUrl": "images/categories/germany.png",
+    "teams": [
+      {
+        "id": 7,
+        "name": "Bayer Leverkusen",
+        "imageUrl": "images/teams/bayer_leverkusen.png"
+      },
+      {
+        "id": 8,
+        "name": "Bayern München",
+        "imageUrl": "images/teams/bayern_munchen.png"
+      },
+      {
+        "id": 9,
+        "name": "Borussia Dortmund",
+        "imageUrl": "images/teams/borussia_dortmund.png"
+      },
+      {
+        "id": 10,
+        "name": "Borussia Mönchengladbach",
+        "imageUrl": "images/teams/borussia_monchengladbach.png"
+      },
+      {
+        "id": 11,
+        "name": "Werder Bremen",
+        "imageUrl": "images/teams/werder_bremen.png"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Olaszország",
+    "imageUrl": "images/categories/italy.png",
+    "teams": [
+      {
+        "id": 12,
+        "name": "Internazionale",
+        "imageUrl": "images/teams/internazionale.png"
+      },
+      {
+        "id": 13,
+        "name": "Juventus",
+        "imageUrl": "images/teams/juventus.png"
+      },
+      {
+        "id": 14,
+        "name": "Milan",
+        "imageUrl": "images/teams/milan.png"
+      },
+      {
+        "id": 15,
+        "name": "Napoli",
+        "imageUrl": "images/teams/napoli.png"
+      },
+      {
+        "id": 16,
+        "name": "Roma",
+        "imageUrl": "images/teams/roma.png"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Spanyolország",
+    "imageUrl": "images/categories/spain.png",
+    "teams": [
+      {
+        "id": 17,
+        "name": "Atlético Madrid",
+        "imageUrl": "images/teams/atletico_madrid.png"
+      },
+      {
+        "id": 18,
+        "name": "Barcelona",
+        "imageUrl": "images/teams/barcelona.png"
+      },
+      {
+        "id": 19,
+        "name": "Real Madrid",
+        "imageUrl": "images/teams/real_madrid.png"
+      },
+      {
+        "id": 20,
+        "name": "Sevilla",
+        "imageUrl": "images/teams/sevilla.png"
+      },
+      {
+        "id": 21,
+        "name": "Valencia",
+        "imageUrl": "images/teams/valencia.png"
+      }
+    ]
+  }
+]

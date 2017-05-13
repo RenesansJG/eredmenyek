@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
-// Assists in working with annotation processors for Android Studio.
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.0-rc1"
     defaultConfig {
         applicationId "hu.renesans.eredmenyek"
         minSdkVersion 15
@@ -19,26 +17,67 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
+        mock {
+            applicationId 'hu.renesans.eredmenyek.mock'
+            versionName defaultConfig.versionName + ' Mock'
+            buildConfigField 'boolean', 'MOCK', 'true'
+        }
+        prod {
+            applicationId 'hu.renesans.eredmenyek'
+            versionName defaultConfig.versionName
+            buildConfigField 'boolean', 'MOCK', 'false'
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Android Support libraries
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:percent:25.3.1'
+
+    // Dagger 2 and Compiler
+    compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    // Sugar ORM
+    compile 'com.github.satyan:sugar:1.5'
+
+    // EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    // ButterKnife
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    // Gson
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
+    // OkHttp
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+
+    //Glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    // JUnit
+    testCompile 'junit:junit:4.12'
+
+    // Espresso
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    testCompile 'junit:junit:4.12'
-
-    // Dagger 2 and Compiler
-    compile 'com.google.dagger:dagger-compiler:2.0.1'
-    compile 'com.google.dagger:dagger:2.0.1'
-    apt 'com.google.dagger:dagger-compiler:2.0.1'
-    // Required for @Generated annotation (missing in Java <= 1.6; therefore, Android)
-    provided 'javax.annotation:jsr250-api:1.0'
-
-    // Sugar ORM
-    compile 'com.github.satyan:sugar:1.4'
-    // EventBus
-    compile 'org.greenrobot:eventbus:3.0.0'
 }

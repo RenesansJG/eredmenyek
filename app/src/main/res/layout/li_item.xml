@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/containerLL"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="?attr/rowPadding"
+              android:minHeight="?attr/rowHeight"
+              android:weightSum="1"
+              tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/imageIV"
+        android:layout_width="?attr/imageWidth"
+        android:layout_height="?attr/imageHeight"/>
+
+    <TextView
+        android:id="@+id/nameTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="?attr/textMarginLeft"
+        android:layout_marginStart="?attr/textMarginLeft"
+        android:layout_gravity="center_vertical"/>
+
+    <ImageView
+        android:id="@+id/starIV"
+        android:layout_width="?attr/imageWidth"
+        android:layout_height="?attr/imageWidth"
+        android:tint="@color/star_tint"
+        android:background="@android:color/transparent"/>
+
+</LinearLayout>

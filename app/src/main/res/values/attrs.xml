@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Row">
+        <attr name="rowHeight" format="dimension" />
+        <attr name="rowPadding" format="dimension" />
+        <attr name="imageWidth" format="dimension" />
+        <attr name="imageHeight" format="dimension" />
+        <attr name="textMarginLeft" format="dimension" />
+    </declare-styleable>
+</resources>

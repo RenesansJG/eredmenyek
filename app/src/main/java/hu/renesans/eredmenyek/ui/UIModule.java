@@ -4,6 +4,9 @@ import android.content.Context;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -54,5 +57,11 @@ public class UIModule {
     @Singleton
     public EventBus provideEventBus() {
         return EventBus.getDefault();
+    }
+
+    @Provides
+    @Singleton
+    public Executor provideExecutor() {
+        return Executors.newFixedThreadPool(1);
     }
 }

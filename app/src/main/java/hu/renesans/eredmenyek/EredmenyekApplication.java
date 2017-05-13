@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import hu.renesans.eredmenyek.repository.Repository;
 import hu.renesans.eredmenyek.ui.UIModule;
+import hu.renesans.eredmenyek.utils.Store;
 
 public class EredmenyekApplication extends Application {
     public static EredmenyekApplicationComponent injector;
@@ -17,11 +18,19 @@ public class EredmenyekApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        injector = DaggerEredmenyekApplicationComponent.builder()
-                .uIModule(new UIModule(this))
-                .build();
+        if (BuildConfig.MOCK) {
+            injector = DaggerMockEredmenyekApplicationComponent.builder()
+                    .uIModule(new UIModule(this))
+                    .build();
+        } else {
+            injector = DaggerEredmenyekApplicationComponent.builder()
+                    .uIModule(new UIModule(this))
+                    .build();
+        }
+
 
         injector.inject(this);
+        Store.init(this);
         repository.open(getApplicationContext());
     }
 }

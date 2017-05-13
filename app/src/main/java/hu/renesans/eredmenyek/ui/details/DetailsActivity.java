@@ -1,35 +1,153 @@
 package hu.renesans.eredmenyek.ui.details;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import hu.renesans.eredmenyek.R;
+import hu.renesans.eredmenyek.model.Event;
+import hu.renesans.eredmenyek.model.Match;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static hu.renesans.eredmenyek.EredmenyekApplication.injector;
+import static hu.renesans.eredmenyek.utils.AssetHelper.loadImage;
+import static hu.renesans.eredmenyek.utils.MinuteFormatter.formatMinute;
 
 public class DetailsActivity extends AppCompatActivity implements DetailsScreen {
+    public static final String EXTRA_MATCH_ID = "matchId";
+
+    private static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault());
+
+    private static final long REFRESH_DELAY = 10000;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.scoreTV)
+    TextView scoreTV;
+
+    @BindView(R.id.homeTeamIV)
+    ImageView homeTeamIV;
+
+    @BindView(R.id.awayTeamIV)
+    ImageView awayTeamIV;
+
+    @BindView(R.id.homeTeamTV)
+    TextView homeTeamTV;
+
+    @BindView(R.id.awayTeamTV)
+    TextView awayTeamTV;
+
+    @BindView(R.id.dateTimeTV)
+    TextView dateTimeTV;
+
+    @BindView(R.id.minuteTV)
+    TextView minuteTV;
+
+    @BindView(R.id.eventsRV)
+    RecyclerView eventsRV;
+
     @Inject
-    DetailsPresenter detailsPresenter;
+    DetailsPresenter presenter;
+
+    private int id;
+    private List<Event> events;
+    private EventsAdapter adapter;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-
+        ButterKnife.bind(this);
         injector.inject(this);
+
+        id = getIntent().getIntExtra(EXTRA_MATCH_ID, 0);
+
+        setToolbar();
+        setRecyclerView();
+
+        handler = new Handler();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        detailsPresenter.attachScreen(this);
+        presenter.attachScreen(this);
+        presenter.getMatch(id);
     }
 
     @Override
     protected void onStop() {
-        detailsPresenter.detachScreen();
+        presenter.detachScreen();
         super.onStop();
+    }
+
+    private void setToolbar() {
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    private void setRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        eventsRV.setLayoutManager(layoutManager);
+
+        events = new ArrayList<>();
+
+        adapter = new EventsAdapter(events);
+        eventsRV.setAdapter(adapter);
+    }
+
+    @Override
+    public void showMatch(Match match) {
+        scoreTV.setText(getString(R.string.format_score,
+                match.getHomeScore(), match.getAwayScore()));
+        scoreTV.setTextColor(ContextCompat.getColor(this,
+                match.isStarted() ? R.color.live_text : R.color.primary_text));
+        loadImage(match.getHomeTeam().getImageUrl(), homeTeamIV);
+        loadImage(match.getAwayTeam().getImageUrl(), awayTeamIV);
+        homeTeamTV.setText(match.getHomeTeam().getName());
+        awayTeamTV.setText(match.getAwayTeam().getName());
+        dateTimeTV.setText(DATE_FORMAT.format(match.getStartTime()));
+
+        if (match.isStarted()) {
+            minuteTV.setText(formatMinute(this, match.getPeriod(), match.getMinute(), true));
+        }
+
+        minuteTV.setVisibility(match.isStarted() ? VISIBLE : GONE);
+
+        events.clear();
+        events.addAll(match.getEvents());
+        Collections.reverse(events);
+        adapter.notifyDataSetChanged();
+        handler.postDelayed(() -> presenter.getMatch(id), REFRESH_DELAY);
+    }
+
+    @Override
+    public void showErrorMessage() {
+        this.events.clear();
+        adapter.notifyDataSetChanged();
+        handler.postDelayed(() -> presenter.getMatch(id), REFRESH_DELAY);
     }
 }

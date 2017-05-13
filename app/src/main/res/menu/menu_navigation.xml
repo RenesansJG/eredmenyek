@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_main"
+           android:checkableBehavior="single">
+        <item android:id="@+id/tournaments"
+              android:icon="@drawable/ic_tournaments_black_36dp"
+              android:title="@string/menu_tournaments" />
+        <item android:id="@+id/teams"
+              android:icon="@drawable/ic_teams_black_36dp"
+              android:title="@string/menu_teams" />
+    </group>
+</menu>

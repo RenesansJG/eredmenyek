@@ -1,0 +1,75 @@
+[
+  {
+    "id": 1,
+    "name": "Anglia",
+    "imageUrl": "images/categories/england.png",
+    "tournaments": [
+      {
+        "id": 1,
+        "name": "Premier League",
+        "imageUrl": "images/tournaments/premier_league.png"
+      },
+      {
+        "id": 2,
+        "name": "FA Kupa",
+        "imageUrl": "images/tournaments/fa_cup.png"
+      },
+      {
+        "id": 3,
+        "name": "EFL Cup",
+        "imageUrl": "images/tournaments/efl_cup.png"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Németország",
+    "imageUrl": "images/categories/germany.png",
+    "tournaments": [
+      {
+        "id": 4,
+        "name": "Bundesliga",
+        "imageUrl": "images/tournaments/bundesliga.png"
+      },
+      {
+        "id": 5,
+        "name": "Német Kupa",
+        "imageUrl": "images/tournaments/german_cup.png"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Olaszország",
+    "imageUrl": "images/categories/italy.png",
+    "tournaments": [
+      {
+        "id": 6,
+        "name": "Serie A",
+        "imageUrl": "images/tournaments/serie_a.png"
+      },
+      {
+        "id": 7,
+        "name": "Coppa Italia",
+        "imageUrl": "images/tournaments/coppa_italia.png"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Spanyolország",
+    "imageUrl": "images/categories/spain.png",
+    "tournaments": [
+      {
+        "id": 8,
+        "name": "La Liga",
+        "imageUrl": "images/tournaments/la_liga.png"
+      },
+      {
+        "id": 9,
+        "name": "Spanyol Kupa",
+        "imageUrl": "images/tournaments/spanish_cup.png"
+      }
+    ]
+  }
+]
