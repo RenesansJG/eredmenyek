@@ -11,6 +11,7 @@ import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
+import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.interactor.matches.MatchesInteractor;
 import hu.renesans.eredmenyek.interactor.matches.event.FindMatchesByTeamEvent;
 import hu.renesans.eredmenyek.interactor.matches.event.FindMatchesByTournamentEvent;
@@ -60,7 +61,7 @@ public class MatchesPresenter extends Presenter<MatchesScreen> {
     public void onFindMatchesByTournamentEvent(FindMatchesByTournamentEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_find_matches);
             Log.e("Networking", "Error finding matches by tournament", event.getThrowable());
         } else {
             if (screen != null) screen.showMatches(event.getResult());
@@ -72,7 +73,7 @@ public class MatchesPresenter extends Presenter<MatchesScreen> {
     public void onFindMatchesByTeamEvent(FindMatchesByTeamEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_find_matches);
             Log.e("Networking", "Error finding matches by team", event.getThrowable());
         } else {
             if (screen != null) screen.showMatches(event.getResult());

@@ -11,9 +11,7 @@
     "imageUrl": "images/teams/atletico_madrid.png"
   },
   "startTime": "2017-05-10T20:00:00.000Z",
-  "started": true,
-  "period": "first_half",
-  "minute": 35,
+  "started": false,
   "homeScore": 2,
   "awayScore": 1,
   "events": [
@@ -23,6 +21,13 @@
       "type": "goal",
       "team": "away",
       "player": "Antoine Griezmann"
+    },
+    {
+      "period": "first_half",
+      "minute": 21,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Gabi"
     },
     {
       "period": "first_half",
@@ -37,6 +42,97 @@
       "type": "goal",
       "team": "home",
       "player": "Sergio Ramos"
+    },
+    {
+      "period": "first_half",
+      "minute": 44,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Pepe"
+    },
+    {
+      "period": "second_half",
+      "minute": 50,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Karim Benzema"
+    },
+    {
+      "period": "second_half",
+      "minute": 55,
+      "type": "substitution",
+      "team": "away",
+      "player": "Saul Niguez\nJuanfran"
+    },
+    {
+      "period": "second_half",
+      "minute": 57,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Koke"
+    },
+    {
+      "period": "second_half",
+      "minute": 58,
+      "type": "missed_penalty",
+      "team": "home",
+      "player": "Cristiano Ronaldo"
+    },
+    {
+      "period": "second_half",
+      "minute": 62,
+      "type": "substitution",
+      "team": "home",
+      "player": "Sergio Ramos\nNacho"
+    },
+    {
+      "period": "second_half",
+      "minute": 65,
+      "type": "substitution",
+      "team": "home",
+      "player": "Luka Modric\nCasemiro"
+    },
+    {
+      "period": "second_half",
+      "minute": 72,
+      "type": "substitution",
+      "team": "away",
+      "player": "Antoine Griezmann\nFernando Torres"
+    },
+    {
+      "period": "second_half",
+      "minute": 79,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Fernando Torres"
+    },
+    {
+      "period": "second_half",
+      "minute": 72,
+      "type": "substitution",
+      "team": "home",
+      "player": "Karim Benzema\nJames Rodriguez"
+    },
+    {
+      "period": "second_half",
+      "minute": 80,
+      "type": "substitution",
+      "team": "away",
+      "player": "Kevin Gameiro\nThomas"
+    },
+    {
+      "period": "second_half",
+      "minute": 85,
+      "type": "card_red",
+      "team": "away",
+      "player": "Juanfran"
+    },
+    {
+      "period": "second_half",
+      "minute": 90,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Stefan Savic"
     }
   ]
 }

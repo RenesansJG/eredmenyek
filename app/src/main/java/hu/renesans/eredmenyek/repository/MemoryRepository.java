@@ -14,8 +14,19 @@ public class MemoryRepository implements Repository {
 
     @Override
     public void open(Context context) {
+        Tournament tournament1 = new Tournament(1L, "Premier League", "images/tournaments/premier_league.png");
+        Tournament tournament2 = new Tournament(8L, "La Liga", "images/tournaments/la_liga.png");
+
+        Team team1 = new Team(5L, "Manchester United", "images/teams/manchester_united.png");
+        Team team2 = new Team(18L, "Barcelona", "images/teams/barcelona.png");
+
         tournaments = new ArrayList<>();
+        tournaments.add(tournament1);
+        tournaments.add(tournament2);
+
         teams = new ArrayList<>();
+        teams.add(team1);
+        teams.add(team2);
     }
 
     @Override

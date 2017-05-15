@@ -16,6 +16,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,10 +29,10 @@ import hu.renesans.eredmenyek.model.TeamType;
 import static hu.renesans.eredmenyek.utils.MinuteFormatter.formatMinute;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
-    private List<Event> events;
+    private final List<Event> events;
 
-    public EventsAdapter(List<Event> events) {
-        this.events = events;
+    public EventsAdapter() {
+        events = new ArrayList<>();
     }
 
     @Override
@@ -58,34 +60,38 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
         int drawableId;
 
-        switch (event.getType()) {
-            case GOAL:
-                drawableId = R.drawable.ic_goal_36dp;
-                break;
-            case GOAL_PENALTY:
-                drawableId = R.drawable.ic_goal_penalty_36dp;
-                break;
-            case GOAL_OWN:
-                drawableId = R.drawable.ic_goal_own_36dp;
-                break;
-            case MISSED_PENALTY:
-                drawableId = R.drawable.ic_missed_penalty_36dp;
-                break;
-            case CARD_YELLOW:
-                drawableId = R.drawable.ic_card_yellow_36dp;
-                break;
-            case CARD_RED:
-                drawableId = R.drawable.ic_card_red_36dp;
-                break;
-            case CARD_SECOND_YELLOW_RED:
-                drawableId = R.drawable.ic_card_second_yellow_red_36dp;
-                break;
-            case SUBSTITUTION:
-                drawableId = R.drawable.ic_substitution_36dp;
-                break;
-            default:
-                drawableId = 0;
-                break;
+        if (event.getType() != null) {
+            switch (event.getType()) {
+                case GOAL:
+                    drawableId = R.drawable.ic_goal_36dp;
+                    break;
+                case GOAL_PENALTY:
+                    drawableId = R.drawable.ic_goal_penalty_36dp;
+                    break;
+                case GOAL_OWN:
+                    drawableId = R.drawable.ic_goal_own_36dp;
+                    break;
+                case MISSED_PENALTY:
+                    drawableId = R.drawable.ic_missed_penalty_36dp;
+                    break;
+                case CARD_YELLOW:
+                    drawableId = R.drawable.ic_card_yellow_36dp;
+                    break;
+                case CARD_RED:
+                    drawableId = R.drawable.ic_card_red_36dp;
+                    break;
+                case CARD_SECOND_YELLOW_RED:
+                    drawableId = R.drawable.ic_card_second_yellow_red_36dp;
+                    break;
+                case SUBSTITUTION:
+                    drawableId = R.drawable.ic_substitution_36dp;
+                    break;
+                default:
+                    drawableId = 0;
+                    break;
+            }
+        } else {
+            drawableId = 0;
         }
 
         Glide.with(holder.playerTV.getContext()).load(drawableId).into(new SimpleTarget<GlideDrawable>() {
@@ -100,11 +106,24 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
                 }
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return events.size();
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events.clear();
+        this.events.addAll(events);
+        Collections.reverse(events);
+        notifyDataSetChanged();
+    }
+
+    public void clearEvents() {
+        this.events.clear();
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -34,6 +34,6 @@ public interface MatchesApi {
      * @param id team ID
      * @return Call<List<MatchHeader>>
      */
-    @GET("mathces/byTeam")
+    @GET("matches/byTeam")
     Call<List<MatchHeader>> findMatchesByTeam(@Query("id") Long id);
 }

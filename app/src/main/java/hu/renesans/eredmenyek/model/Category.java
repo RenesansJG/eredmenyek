@@ -1,11 +1,9 @@
 package hu.renesans.eredmenyek.model;
 
-public abstract class Category extends Item {
-    public Category() {
-        super();
-    }
+import java.util.List;
 
-    public Category(Long id, String name, String imageUrl) {
-        super(id, name, imageUrl);
-    }
+public interface Category<T extends Item<T>> extends Item<T> {
+    List<T> getItems();
+
+    void setItems(List<T> items);
 }

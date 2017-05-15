@@ -1,0 +1,28 @@
+{
+  "id": 3,
+  "homeTeam": {
+    "id": 18,
+    "name": "Barcelona",
+    "imageUrl": "images/teams/barcelona.png"
+  },
+  "awayTeam": {
+    "id": 19,
+    "name": "Real Madrid",
+    "imageUrl": "images/teams/real_madrid.png"
+  },
+  "startTime": "2017-05-12T20:00:00.000Z",
+  "started": true,
+  "period": "first_half",
+  "minute": 7,
+  "homeScore": 1,
+  "awayScore": 0,
+  "events": [
+    {
+      "period": "first_half",
+      "minute": 3,
+      "type": "goal_own",
+      "team": "home",
+      "player": "Casemiro"
+    }
+  ]
+}

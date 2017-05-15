@@ -1,0 +1,17 @@
+[
+  {
+    "id": 4,
+    "homeTeam": {
+      "id": 20,
+      "name": "Sevilla",
+      "imageUrl": "images/teams/sevilla.png"
+    },
+    "awayTeam": {
+      "id": 21,
+      "name": "Valencia",
+      "imageUrl": "images/teams/valencia.png"
+    },
+    "startTime": "2017-05-12T22:00:00.000Z",
+    "started": false
+  }
+]

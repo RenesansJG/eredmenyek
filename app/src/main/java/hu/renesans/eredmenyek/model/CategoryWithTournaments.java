@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CategoryWithTournaments extends Category {
+public class CategoryWithTournaments extends Tournament implements Category<Tournament> {
     @SerializedName("tournaments")
     protected List<Tournament> tournaments;
 
@@ -17,11 +17,13 @@ public class CategoryWithTournaments extends Category {
         this.tournaments = tournaments;
     }
 
-    public List<Tournament> getTournaments() {
+    @Override
+    public List<Tournament> getItems() {
         return tournaments;
     }
 
-    public void setTournaments(List<Tournament> tournaments) {
-        this.tournaments = tournaments;
+    @Override
+    public void setItems(List<Tournament> items) {
+        tournaments = items;
     }
 }

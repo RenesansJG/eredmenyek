@@ -25,6 +25,7 @@ public class UIModule {
     }
 
     @Provides
+    @Singleton
     public Context provideContext() {
         return context;
     }
@@ -42,13 +43,11 @@ public class UIModule {
     }
 
     @Provides
-    @Singleton
     public MatchesPresenter provideMatchesPresenter() {
         return new MatchesPresenter();
     }
 
     @Provides
-    @Singleton
     public DetailsPresenter provideDetailsPresenter() {
         return new DetailsPresenter();
     }

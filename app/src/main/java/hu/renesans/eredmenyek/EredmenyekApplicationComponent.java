@@ -29,13 +29,13 @@ public interface EredmenyekApplicationComponent {
 
     void inject(MainActivity mainActivity);
 
-    void inject(TournamentsFragment tournamentsFragment);
-
-    void inject(TeamsFragment teamsFragment);
-
     void inject(MatchesActivity matchesActivity);
 
     void inject(DetailsActivity detailsActivity);
+
+    void inject(TournamentsFragment tournamentsFragment);
+
+    void inject(TeamsFragment teamsFragment);
 
     void inject(TournamentsPresenter tournamentsPresenter);
 

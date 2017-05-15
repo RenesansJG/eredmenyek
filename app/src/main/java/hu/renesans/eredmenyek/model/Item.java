@@ -1,47 +1,15 @@
 package hu.renesans.eredmenyek.model;
 
-import com.google.gson.annotations.SerializedName;
+public interface Item<T extends Item<T>> {
+    Long getId();
 
-public abstract class Item {
-    @SerializedName("id")
-    protected Long id;
+    void setId(Long id);
 
-    @SerializedName("name")
-    protected String name;
+    String getName();
 
-    @SerializedName("imageUrl")
-    protected String imageUrl;
+    void setName(String name);
 
-    protected Item() {
-    }
+    String getImageUrl();
 
-    protected Item(Long id, String name, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    void setImageUrl(String imageUrl);
 }

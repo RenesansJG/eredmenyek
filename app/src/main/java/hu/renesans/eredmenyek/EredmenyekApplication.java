@@ -2,11 +2,14 @@ package hu.renesans.eredmenyek;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
+
 import javax.inject.Inject;
 
 import hu.renesans.eredmenyek.repository.Repository;
 import hu.renesans.eredmenyek.ui.UIModule;
 import hu.renesans.eredmenyek.utils.Store;
+import io.fabric.sdk.android.Fabric;
 
 public class EredmenyekApplication extends Application {
     public static EredmenyekApplicationComponent injector;
@@ -14,9 +17,17 @@ public class EredmenyekApplication extends Application {
     @Inject
     Repository repository;
 
+    public void setInjector(EredmenyekApplicationComponent appComponent) {
+        injector = appComponent;
+        injector.inject(this);
+        repository.open(getApplicationContext());
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Fabric.with(this, new Crashlytics());
 
         if (BuildConfig.MOCK) {
             injector = DaggerMockEredmenyekApplicationComponent.builder()
@@ -27,7 +38,6 @@ public class EredmenyekApplication extends Application {
                     .uIModule(new UIModule(this))
                     .build();
         }
-
 
         injector.inject(this);
         Store.init(this);

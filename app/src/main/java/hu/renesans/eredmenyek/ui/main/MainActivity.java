@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -18,16 +17,17 @@ import butterknife.ButterKnife;
 import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.model.Team;
 import hu.renesans.eredmenyek.model.Tournament;
+import hu.renesans.eredmenyek.ui.BaseActivity;
 import hu.renesans.eredmenyek.ui.matches.MatchesActivity;
 import hu.renesans.eredmenyek.ui.teams.TeamsFragment;
 import hu.renesans.eredmenyek.ui.tournaments.TournamentsFragment;
 
 import static hu.renesans.eredmenyek.EredmenyekApplication.injector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TOURNAMENTS = "tournaments";
     private static final String TEAMS = "teams";
-    private static final long NAVIGATION_DELAY_MILLIS = 500L;
+    private static final long NAVIGATION_DELAY = 500L;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-
         if (drawerToggle != null) drawerLayout.removeDrawerListener(drawerToggle);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -64,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.tournaments:
-                    handler.postDelayed(() -> navigateToScreen(TOURNAMENTS), NAVIGATION_DELAY_MILLIS);
+                    handler.postDelayed(() -> navigateToScreen(TOURNAMENTS), NAVIGATION_DELAY);
                     break;
                 case R.id.teams:
-                    handler.postDelayed(() -> navigateToScreen(TEAMS), NAVIGATION_DELAY_MILLIS);
+                    handler.postDelayed(() -> navigateToScreen(TEAMS), NAVIGATION_DELAY);
                     break;
                 default:
                     break;

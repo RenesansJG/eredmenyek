@@ -1,4 +1,4 @@
-package hu.renesans.eredmenyek.ui;
+package hu.renesans.eredmenyek.ui.items;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,19 +29,21 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static hu.renesans.eredmenyek.utils.AssetHelper.loadImage;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
-    private List<Item> items;
-    private List<? extends Item> favorites;
-    private OnItemClickListener listener;
-    private FavoriteListener favoriteListener;
+public class ItemsAdapter<T extends Item<T>> extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
+    private final List<Item<T>> items;
+    private final List<Item<T>> favorites;
+    private boolean showFavoritesOnly;
+
+    private OnItemClickListener<T> listener;
+    private FavoriteListener<T> favoriteListener;
 
     private ContextThemeWrapper itemContext;
     private ContextThemeWrapper categoryContext;
 
-    public ItemsAdapter(List<Item> items, List<? extends Item> favorites,
-                        OnItemClickListener listener, FavoriteListener favoriteListener) {
-        this.items = items;
-        this.favorites = favorites;
+    public ItemsAdapter(OnItemClickListener<T> listener, FavoriteListener<T> favoriteListener) {
+        items = new ArrayList<>();
+        favorites = new ArrayList<>();
+
         this.listener = listener;
         this.favoriteListener = favoriteListener;
     }
@@ -71,7 +74,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Item item = items.get(position);
+        Item<T> item = (showFavoritesOnly ? favorites : items).get(position);
 
         loadImage(item.getImageUrl(), holder.imageIV);
         holder.nameTV.setText(item.getName());
@@ -88,7 +91,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                 }
             };
 
-            Item favorite = getFavorite(item);
+            Item<T> favorite = showFavoritesOnly ? item : getFavorite(item);
 
             if (favorite != null) {
                 Glide.with(holder.starIV.getContext())
@@ -103,23 +106,57 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             holder.starIV.setVisibility(VISIBLE);
         } else {
             holder.containerLL.setOnClickListener(null);
-            holder.starIV.setOnClickListener(null);
             holder.starIV.setVisibility(GONE);
         }
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return (showFavoritesOnly ? favorites : items).size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (items.get(position) instanceof Category) ? R.id.category : R.id.item;
+        return (!showFavoritesOnly && items.get(position) instanceof Category<?>) ?
+                R.id.category : R.id.item;
     }
 
-    private Item getFavorite(Item item) {
-        for (Item favorite : favorites) {
+    public void setItems(List<? extends Category<T>> items) {
+        this.items.clear();
+
+        for (Category<T> category : items) {
+            this.items.add(category);
+            this.items.addAll(category.getItems());
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void setFavorites(List<T> favorites) {
+        this.favorites.clear();
+        this.favorites.addAll(favorites);
+        notifyDataSetChanged();
+    }
+
+    public void addFavorite(Item<T> favorite) {
+        favorites.add(favorite);
+        notifyDataSetChanged();
+    }
+
+    public void removeFavorite(Item<T> favorite) {
+        favorites.remove(favorite);
+        notifyDataSetChanged();
+    }
+
+    public void setShowFavoritesOnly(boolean showFavoritesOnly) {
+        if (showFavoritesOnly != this.showFavoritesOnly) {
+            this.showFavoritesOnly = showFavoritesOnly;
+            notifyDataSetChanged();
+        }
+    }
+
+    private Item<T> getFavorite(Item<T> item) {
+        for (Item<T> favorite : favorites) {
             if (favorite.getId().equals(item.getId())) {
                 return favorite;
             }
@@ -128,13 +165,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         return null;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(Item item);
+    public interface OnItemClickListener<T extends Item<T>> {
+        void onItemClick(Item<T> item);
     }
 
-    public interface FavoriteListener {
-        void saveFavorite(Item item);
-        void removeFavorite(Item item);
+    public interface FavoriteListener<T extends Item<T>> {
+        void saveFavorite(Item<T> item);
+        void removeFavorite(Item<T> item);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

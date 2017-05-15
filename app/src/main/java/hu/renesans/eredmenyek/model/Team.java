@@ -1,6 +1,6 @@
 package hu.renesans.eredmenyek.model;
 
-public class Team extends Item {
+public class Team extends BaseItem<Team> {
     public Team() {
         super();
     }

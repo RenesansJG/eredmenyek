@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
         <meta-data
             android:name="DATABASE"
             android:value="eredmenyek.db"/>
@@ -27,15 +28,30 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="hu.renesans.eredmenyek.model.database"/>
 
-        <activity android:name=".ui.main.MainActivity">
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c7f522884263341d88e872617be97059e32088f7"/>
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.matches.MatchesActivity" />
-        <activity android:name=".ui.details.DetailsActivity" />
+
+        <activity
+            android:name=".ui.matches.MatchesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.details.DetailsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
 
     </application>
 

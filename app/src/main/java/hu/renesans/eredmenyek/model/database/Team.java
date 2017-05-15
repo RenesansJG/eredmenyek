@@ -44,4 +44,24 @@ public class Team {
     public hu.renesans.eredmenyek.model.Team toModelObject() {
         return new hu.renesans.eredmenyek.model.Team(this.id, this.name, this.imageUrl);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Team)) return false;
+
+        Team other = (Team) o;
+
+        return (id != null ? id.equals(other.id) : other.id == null) &&
+                (name != null ? name.equals(other.name) : other.name == null) &&
+                (imageUrl != null ? imageUrl.equals(other.imageUrl) : other.imageUrl == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
+        return result;
+    }
 }

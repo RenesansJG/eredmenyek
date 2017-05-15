@@ -11,6 +11,7 @@ import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
+import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.interactor.favorites.FavoritesInteractor;
 import hu.renesans.eredmenyek.interactor.favorites.events.GetFavoriteTeamsEvent;
 import hu.renesans.eredmenyek.interactor.favorites.events.GetShowFavoriteTeamsOnlyEvent;
@@ -21,11 +22,12 @@ import hu.renesans.eredmenyek.interactor.teams.TeamsInteractor;
 import hu.renesans.eredmenyek.interactor.teams.event.GetTeamsEvent;
 import hu.renesans.eredmenyek.model.CategoryWithTeams;
 import hu.renesans.eredmenyek.model.Team;
-import hu.renesans.eredmenyek.ui.Presenter;
+import hu.renesans.eredmenyek.ui.items.ItemsPresenter;
+import hu.renesans.eredmenyek.ui.items.ItemsScreen;
 
 import static hu.renesans.eredmenyek.EredmenyekApplication.injector;
 
-public class TeamsPresenter extends Presenter<TeamsScreen> {
+public class TeamsPresenter extends ItemsPresenter<Team> {
     @Inject
     TeamsInteractor teamsInteractor;
 
@@ -39,15 +41,23 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     EventBus bus;
 
     private List<CategoryWithTeams> teamsCache;
+    private List<Team> favoritesCache;
+    private boolean showFavoritesOnly;
 
     @Override
-    public void attachScreen(TeamsScreen screen) {
+    public void attachScreen(ItemsScreen<Team> screen) {
         super.attachScreen(screen);
         injector.inject(this);
         bus.register(this);
 
+        screen.showFavoritesOnlyChanged(showFavoritesOnly);
+
         if (teamsCache != null) {
-            if (screen != null) screen.showTeams(teamsCache);
+            screen.showItems(teamsCache);
+        }
+
+        if (favoritesCache != null) {
+            screen.showFavorites(favoritesCache);
         }
     }
 
@@ -57,26 +67,32 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
         super.detachScreen();
     }
 
-    public void getTeams() {
+    @Override
+    public void getItems() {
         executor.execute(() -> teamsInteractor.getTeams());
     }
 
+    @Override
     public void getFavorites() {
         executor.execute(() -> favoritesInteractor.getFavoriteTeams());
     }
 
+    @Override
     public void saveFavorite(Team team) {
         executor.execute(() -> favoritesInteractor.saveFavorite(team));
     }
 
+    @Override
     public void removeFavorite(Team team) {
         executor.execute(() -> favoritesInteractor.removeFavorite(team));
     }
 
+    @Override
     public void getShowFavoritesOnly() {
         executor.execute(() -> favoritesInteractor.getShowFavoriteTeamsOnly());
     }
 
+    @Override
     public void setShowFavoritesOnly(boolean showFavoritesOnly) {
         executor.execute(() -> favoritesInteractor.setShowFavoriteTeamsOnly(showFavoritesOnly));
     }
@@ -85,10 +101,10 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     public void onGetTeamsEvent(GetTeamsEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_get_teams);
             Log.e("Networking", "Error getting teams", event.getThrowable());
         } else {
-            if (screen != null) screen.showTeams(event.getResult());
+            if (screen != null) screen.showItems(event.getResult());
             teamsCache = event.getResult();
         }
     }
@@ -97,10 +113,11 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     public void onGetFavoriteTeamsEvent(GetFavoriteTeamsEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_get_favorites);
             Log.e("Database", "Error getting favorite teams", event.getThrowable());
         } else {
             if (screen != null) screen.showFavorites(event.getResult());
+            favoritesCache = event.getResult();
         }
     }
 
@@ -108,10 +125,11 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     public void onSaveFavoriteTeamEvent(SaveFavoriteTeamEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_save_favorite);
             Log.e("Database", "Error saving favorite team", event.getThrowable());
         } else {
             if (screen != null) screen.favoriteSaved(event.getResult());
+            if (favoritesCache != null) favoritesCache.add(event.getResult());
         }
     }
 
@@ -119,10 +137,11 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     public void onRemoveFavoriteTeamEvent(RemoveFavoriteTeamEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_remove_favorite);
             Log.e("Database", "Error removing favorite team", event.getThrowable());
         } else {
             if (screen != null) screen.favoriteRemoved(event.getResult());
+            if (favoritesCache != null) favoritesCache.remove(event.getResult());
         }
     }
 
@@ -130,10 +149,13 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     public void onGetShowFavoriteTeamsOnlyEvent(GetShowFavoriteTeamsOnlyEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_get_setting);
             Log.e("Store", "Error getting \"show favorite teams only\" flag", event.getThrowable());
         } else {
-            if (screen != null) screen.showFavoritesOnlyChanged(event.getResult());
+            if (event.getResult() != showFavoritesOnly) {
+                if (screen != null) screen.showFavoritesOnlyChanged(event.getResult());
+                showFavoritesOnly = event.getResult();
+            }
         }
     }
 
@@ -141,10 +163,13 @@ public class TeamsPresenter extends Presenter<TeamsScreen> {
     public void onSetShowFavoriteTeamsOnlyEvent(SetShowFavoriteTeamsOnlyEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_set_setting);
             Log.e("Store", "Error setting \"show favorite teams only\" flag", event.getThrowable());
         } else {
-            if (screen != null) screen.showFavoritesOnlyChanged(event.getResult());
+            if (event.getResult() != showFavoritesOnly) {
+                if (screen != null) screen.showFavoritesOnlyChanged(event.getResult());
+                showFavoritesOnly = event.getResult();
+            }
         }
     }
 }

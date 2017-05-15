@@ -1,9 +1,9 @@
 package hu.renesans.eredmenyek.ui.details;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -21,8 +18,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.renesans.eredmenyek.R;
-import hu.renesans.eredmenyek.model.Event;
 import hu.renesans.eredmenyek.model.Match;
+import hu.renesans.eredmenyek.ui.BaseActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -30,7 +27,7 @@ import static hu.renesans.eredmenyek.EredmenyekApplication.injector;
 import static hu.renesans.eredmenyek.utils.AssetHelper.loadImage;
 import static hu.renesans.eredmenyek.utils.MinuteFormatter.formatMinute;
 
-public class DetailsActivity extends AppCompatActivity implements DetailsScreen {
+public class DetailsActivity extends BaseActivity implements DetailsScreen {
     public static final String EXTRA_MATCH_ID = "matchId";
 
     private static final SimpleDateFormat DATE_FORMAT =
@@ -69,7 +66,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
     DetailsPresenter presenter;
 
     private int id;
-    private List<Event> events;
     private EventsAdapter adapter;
     private Handler handler;
 
@@ -97,6 +93,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
 
     @Override
     protected void onStop() {
+        handler.removeCallbacksAndMessages(null);
         presenter.detachScreen();
         super.onStop();
     }
@@ -113,22 +110,27 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         eventsRV.setLayoutManager(layoutManager);
 
-        events = new ArrayList<>();
-
-        adapter = new EventsAdapter(events);
+        adapter = new EventsAdapter();
         eventsRV.setAdapter(adapter);
     }
 
     @Override
     public void showMatch(Match match) {
         scoreTV.setText(getString(R.string.format_score,
-                match.getHomeScore(), match.getAwayScore()));
+                match.getHomeScore() != null ? Integer.toString(match.getHomeScore()) : "",
+                match.getAwayScore() != null ? Integer.toString(match.getAwayScore()) : ""));
         scoreTV.setTextColor(ContextCompat.getColor(this,
                 match.isStarted() ? R.color.live_text : R.color.primary_text));
         loadImage(match.getHomeTeam().getImageUrl(), homeTeamIV);
         loadImage(match.getAwayTeam().getImageUrl(), awayTeamIV);
         homeTeamTV.setText(match.getHomeTeam().getName());
         awayTeamTV.setText(match.getAwayTeam().getName());
+        homeTeamTV.setTypeface(null, !match.isStarted() &&
+                match.getHomeScore() != null && match.getAwayScore() != null &&
+                match.getHomeScore() > match.getAwayScore() ? Typeface.BOLD : Typeface.NORMAL);
+        awayTeamTV.setTypeface(null, !match.isStarted() &&
+                match.getHomeScore() != null && match.getAwayScore() != null &&
+                match.getHomeScore() < match.getAwayScore() ? Typeface.BOLD : Typeface.NORMAL);
         dateTimeTV.setText(DATE_FORMAT.format(match.getStartTime()));
 
         if (match.isStarted()) {
@@ -137,17 +139,14 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
 
         minuteTV.setVisibility(match.isStarted() ? VISIBLE : GONE);
 
-        events.clear();
-        events.addAll(match.getEvents());
-        Collections.reverse(events);
-        adapter.notifyDataSetChanged();
+        adapter.setEvents(match.getEvents());
         handler.postDelayed(() -> presenter.getMatch(id), REFRESH_DELAY);
     }
 
     @Override
-    public void showErrorMessage() {
-        this.events.clear();
-        adapter.notifyDataSetChanged();
+    public void showErrorMessage(int messageId) {
+        showSnackbar(getString(messageId));
+        adapter.clearEvents();
         handler.postDelayed(() -> presenter.getMatch(id), REFRESH_DELAY);
     }
 }

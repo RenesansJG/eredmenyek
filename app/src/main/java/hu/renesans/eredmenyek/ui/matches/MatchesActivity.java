@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,12 +16,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.model.MatchHeader;
+import hu.renesans.eredmenyek.ui.BaseActivity;
 import hu.renesans.eredmenyek.ui.details.DetailsActivity;
 
 import static hu.renesans.eredmenyek.EredmenyekApplication.injector;
 import static hu.renesans.eredmenyek.utils.AssetHelper.loadImage;
 
-public class MatchesActivity extends AppCompatActivity implements MatchesScreen {
+public class MatchesActivity extends BaseActivity implements MatchesScreen {
     public static final String EXTRA_TOURNAMENT_ID = "tournamentId";
     public static final String EXTRA_TEAM_ID = "teamId";
     public static final String EXTRA_NAME = "name";
@@ -46,7 +45,6 @@ public class MatchesActivity extends AppCompatActivity implements MatchesScreen 
 
     private Type type;
     private long id;
-    private List<MatchHeader> matches;
     private MatchesAdapter adapter;
     private Handler handler;
 
@@ -105,9 +103,7 @@ public class MatchesActivity extends AppCompatActivity implements MatchesScreen 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         matchesRV.setLayoutManager(layoutManager);
 
-        matches = new ArrayList<>();
-
-        adapter = new MatchesAdapter(matches, this::navigateToDetails);
+        adapter = new MatchesAdapter(this::navigateToDetails);
         matchesRV.setAdapter(adapter);
     }
 
@@ -124,16 +120,14 @@ public class MatchesActivity extends AppCompatActivity implements MatchesScreen 
 
     @Override
     public void showMatches(List<MatchHeader> matches) {
-        this.matches.clear();
-        this.matches.addAll(matches);
-        adapter.notifyDataSetChanged();
+        adapter.setMatches(matches);
         handler.postDelayed(this::findMatches, REFRESH_DELAY);
     }
 
     @Override
-    public void showErrorMessage() {
-        this.matches.clear();
-        adapter.notifyDataSetChanged();
+    public void showErrorMessage(int messageId) {
+        showSnackbar(getString(messageId));
+        adapter.clearMatches();
         handler.postDelayed(this::findMatches, REFRESH_DELAY);
     }
 

@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,11 +28,11 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     private static final SimpleDateFormat DATE_FORMAT =
             new SimpleDateFormat("MM.dd\nHH:mm", Locale.getDefault());
 
-    private List<MatchHeader> matches;
+    private final List<MatchHeader> matches;
     private OnMatchClickListener listener;
 
-    public MatchesAdapter(List<MatchHeader> matches, OnMatchClickListener listener) {
-        this.matches = matches;
+    public MatchesAdapter(OnMatchClickListener listener) {
+        matches = new ArrayList<>();
         this.listener = listener;
     }
 
@@ -48,7 +50,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
         holder.dateTimeTV.setText(DATE_FORMAT.format(match.getStartTime()));
         holder.scoreTV.setText(holder.scoreTV.getContext().getString(R.string.format_score,
-                match.getHomeScore(), match.getAwayScore()));
+                match.getHomeScore() != null ? Integer.toString(match.getHomeScore()) : "",
+                match.getAwayScore() != null ? Integer.toString(match.getAwayScore()) : ""));
         holder.scoreTV.setTextColor(ContextCompat.getColor(holder.scoreTV.getContext(),
                 match.isStarted() ? R.color.live_text : R.color.primary_text));
         holder.scoreTV.setTypeface(null, match.isStarted() ? Typeface.BOLD : Typeface.NORMAL);
@@ -63,12 +66,42 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         loadImage(match.getAwayTeam().getImageUrl(), holder.awayTeamIV);
         holder.homeTeamTV.setText(match.getHomeTeam().getName());
         holder.awayTeamTV.setText(match.getAwayTeam().getName());
+        holder.homeTeamTV.setTypeface(null, !match.isStarted() &&
+                match.getHomeScore() != null && match.getAwayScore() != null &&
+                match.getHomeScore() > match.getAwayScore() ? Typeface.BOLD : Typeface.NORMAL);
+        holder.awayTeamTV.setTypeface(null, !match.isStarted() &&
+                match.getHomeScore() != null && match.getAwayScore() != null &&
+                match.getHomeScore() < match.getAwayScore() ? Typeface.BOLD : Typeface.NORMAL);
         holder.containerRL.setOnClickListener(v -> listener.onMatchClick(match));
     }
 
     @Override
     public int getItemCount() {
         return matches.size();
+    }
+
+    public void setMatches(List<MatchHeader> matches) {
+        this.matches.clear();
+        this.matches.addAll(matches);
+        Collections.sort(this.matches, (o1, o2) -> {
+            if (o1.isStarted() && !o2.isStarted()) {
+                return -1;
+            } else if (!o1.isStarted() && o2.isStarted()) {
+                return 1;
+            } else if (o1.getStartTime().after(o2.getStartTime())) {
+                return -1;
+            } else if (o1.getStartTime().before(o2.getStartTime())) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void clearMatches() {
+        this.matches.clear();
+        notifyDataSetChanged();
     }
 
     public interface OnMatchClickListener {

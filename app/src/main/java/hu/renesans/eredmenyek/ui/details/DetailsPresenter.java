@@ -10,6 +10,7 @@ import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
+import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.interactor.matches.MatchesInteractor;
 import hu.renesans.eredmenyek.interactor.matches.event.GetMatchEvent;
 import hu.renesans.eredmenyek.model.Match;
@@ -54,7 +55,7 @@ public class DetailsPresenter extends Presenter<DetailsScreen> {
     public void onGetMatchEvent(GetMatchEvent event) {
         if (event.getThrowable() != null) {
             event.getThrowable().printStackTrace();
-            if (screen != null) screen.showErrorMessage();
+            if (screen != null) screen.showErrorMessage(R.string.error_get_match);
             Log.e("Networking", "Error getting match", event.getThrowable());
         } else {
             if (screen != null) screen.showMatch(event.getResult());

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CategoryWithTeams extends Category {
+public class CategoryWithTeams extends Team implements Category<Team> {
     @SerializedName("teams")
     protected List<Team> teams;
 
@@ -17,11 +17,13 @@ public class CategoryWithTeams extends Category {
         this.teams = teams;
     }
 
-    public List<Team> getTeams() {
+    @Override
+    public List<Team> getItems() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
+    @Override
+    public void setItems(List<Team> items) {
+        teams = items;
     }
 }

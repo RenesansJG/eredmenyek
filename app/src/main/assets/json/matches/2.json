@@ -1,0 +1,152 @@
+{
+  "id": 2,
+  "homeTeam": {
+    "id": 17,
+    "name": "Atlético Madrid",
+    "imageUrl": "images/teams/atletico_madrid.png"
+  },
+  "awayTeam": {
+    "id": 18,
+    "name": "Barcelona",
+    "imageUrl": "images/teams/barcelona.png"
+  },
+  "startTime": "2017-05-11T16:00:00.000Z",
+  "started": false,
+  "homeScore": 0,
+  "awayScore": 2,
+  "events": [
+    {
+      "period": "first_half",
+      "minute": 10,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Neymar"
+    },
+    {
+      "period": "first_half",
+      "minute": 20,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Juanfran"
+    },
+    {
+      "period": "first_half",
+      "minute": 24,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Filipe Luis"
+    },
+    {
+      "period": "first_half",
+      "minute": 27,
+      "type": "substitution",
+      "team": "away",
+      "player": "Neymar\nArda Turan"
+    },
+    {
+      "period": "first_half",
+      "minute": 29,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Javier Mascherano"
+    },
+    {
+      "period": "first_half",
+      "minute": 33,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Gerard Piqué"
+    },
+    {
+      "period": "first_half",
+      "minute": 46,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Koke"
+    },
+    {
+      "period": "second_half",
+      "minute": 49,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Saul Niguez"
+    },
+    {
+      "period": "second_half",
+      "minute": 56,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Sergio Busquets"
+    },
+    {
+      "period": "second_half",
+      "minute": 60,
+      "type": "substitution",
+      "team": "home",
+      "player": "Koke\nGabi"
+    },
+    {
+      "period": "second_half",
+      "minute": 65,
+      "type": "substitution",
+      "team": "home",
+      "player": "Saul Niguez\nFernando Torres"
+    },
+    {
+      "period": "second_half",
+      "minute": 68,
+      "type": "card_yellow",
+      "team": "home",
+      "player": "Jose Gimenez"
+    },
+    {
+      "period": "second_half",
+      "minute": 70,
+      "type": "substitution",
+      "team": "away",
+      "player": "Ivan Rakitic\nAndré Gomes"
+    },
+    {
+      "period": "second_half",
+      "minute": 72,
+      "type": "card_second_yellow_red",
+      "team": "home",
+      "player": "Filipe Luis"
+    },
+    {
+      "period": "second_half",
+      "minute": 78,
+      "type": "substitution",
+      "team": "home",
+      "player": "Antoine Griezmann\nKevin Gameiro"
+    },
+    {
+      "period": "second_half",
+      "minute": 88,
+      "type": "goal",
+      "team": "away",
+      "player": "Lionel Messi"
+    },
+    {
+      "period": "second_half",
+      "minute": 88,
+      "type": "card_yellow",
+      "team": "away",
+      "player": "Lionel Messi"
+    },
+    {
+      "period": "second_half",
+      "minute": 92,
+      "type": "goal",
+      "team": "away",
+      "player": "Lionel Messi"
+    },
+    {
+      "period": "second_half",
+      "minute": 93,
+      "type": "substitution",
+      "team": "away",
+      "player": "Luis Suárez\nPaco Alcácer"
+    }
+  ]
+}
