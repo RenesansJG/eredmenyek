@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -17,6 +20,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hu.renesans.eredmenyek.EredmenyekApplication;
 import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.model.Match;
 import hu.renesans.eredmenyek.ui.BaseActivity;
@@ -69,6 +73,8 @@ public class DetailsActivity extends BaseActivity implements DetailsScreen {
     private EventsAdapter adapter;
     private Handler handler;
 
+    private Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,9 @@ public class DetailsActivity extends BaseActivity implements DetailsScreen {
         setRecyclerView();
 
         handler = new Handler();
+
+        EredmenyekApplication application = (EredmenyekApplication) getApplication();
+        tracker = application.getDefaultTracker();
     }
 
     @Override
@@ -89,6 +98,9 @@ public class DetailsActivity extends BaseActivity implements DetailsScreen {
         super.onStart();
         presenter.attachScreen(this);
         presenter.getMatch(id);
+
+        tracker.setScreenName("Image~DetailsActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

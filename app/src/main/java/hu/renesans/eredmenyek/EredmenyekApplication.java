@@ -3,6 +3,8 @@ package hu.renesans.eredmenyek;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
 import javax.inject.Inject;
 
@@ -13,6 +15,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class EredmenyekApplication extends Application {
     public static EredmenyekApplicationComponent injector;
+
+    private Tracker tracker;
 
     @Inject
     Repository repository;
@@ -42,5 +46,14 @@ public class EredmenyekApplication extends Application {
         injector.inject(this);
         Store.init(this);
         repository.open(getApplicationContext());
+    }
+
+    public synchronized Tracker getDefaultTracker() {
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(R.xml.global_tracker);
+        }
+
+        return tracker;
     }
 }

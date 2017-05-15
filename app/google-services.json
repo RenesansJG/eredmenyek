@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "358071089867",
+    "project_id": "firebase-eredmenyek"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358071089867:android:71d561994612c051",
+        "android_client_info": {
+          "package_name": "hu.renesans.eredmenyek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyq3uKEswnXQ1wLohLmjX_I-lW8DSZhT8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-74526927-3"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

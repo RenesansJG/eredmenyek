@@ -8,12 +8,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hu.renesans.eredmenyek.EredmenyekApplication;
 import hu.renesans.eredmenyek.R;
 import hu.renesans.eredmenyek.model.MatchHeader;
 import hu.renesans.eredmenyek.ui.BaseActivity;
@@ -48,6 +52,8 @@ public class MatchesActivity extends BaseActivity implements MatchesScreen {
     private MatchesAdapter adapter;
     private Handler handler;
 
+    private Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +73,9 @@ public class MatchesActivity extends BaseActivity implements MatchesScreen {
         setRecyclerView();
 
         handler = new Handler();
+
+        EredmenyekApplication application = (EredmenyekApplication) getApplication();
+        tracker = application.getDefaultTracker();
     }
 
     @Override
@@ -74,6 +83,9 @@ public class MatchesActivity extends BaseActivity implements MatchesScreen {
         super.onStart();
         presenter.attachScreen(this);
         findMatches();
+
+        tracker.setScreenName("Image~MatchesActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
